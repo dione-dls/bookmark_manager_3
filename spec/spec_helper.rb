@@ -1,4 +1,4 @@
-ENV['RACK_ENV'] = 'test'
+ENV['ENVIRONMENT'] = 'test'
 
 require(File.join(File.dirname(__FILE__), '..', 'app.rb'))
 
@@ -18,6 +18,10 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.before(:each) do
+    require_relative './test_database_setup'
+  end
 
 =begin
   config.filter_run_when_matching :focus
