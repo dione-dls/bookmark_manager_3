@@ -1,14 +1,20 @@
 require 'pg'
 
 class Link
-  def self.all
+  def self.connection
     if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test')
+      return PG.connect(dbname: 'bookmark_manager_test')
     else
-      connection = PG.connect(dbname: 'bookmark_manager')
+      return PG.connect(dbname: 'bookmark_manager')
     end
+  end
 
+  def self.all
     result = connection.exec("SELECT * FROM links")
     result.map { |link| link['url'] }
+  end
+
+  def self.create(options)
+    connection.exec("INSERT INTO links (url) VALUES('#{options[:url]}')")
   end
 end
