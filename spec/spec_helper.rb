@@ -1,5 +1,8 @@
 ENV['ENVIRONMENT'] = 'test'
 
+require 'rake'
+Rake.application.load_rakefile
+
 require(File.join(File.dirname(__FILE__), '..', 'app.rb'))
 
 require 'capybara'
@@ -20,7 +23,7 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.before(:each) do
-    require_relative './test_database_setup'
+    Rake::Task['test_database_setup'].execute
   end
 
 =begin
