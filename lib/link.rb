@@ -20,6 +20,10 @@ class Link
     DatabaseConnection.query("INSERT INTO links (url, title) VALUES('#{options[:url]}', '#{options[:title]}')")
   end
 
+  def self.delete(id)
+    connection.exec("DELETE FROM links WHERE id = #{id}")
+  end
+
   private
 
   def self.is_url?(url)
