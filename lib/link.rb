@@ -21,7 +21,16 @@ class Link
   end
 
   def self.delete(id)
-    connection.exec("DELETE FROM links WHERE id = #{id}")
+    DatabaseConnection.query("DELETE FROM links WHERE id = #{id}")
+  end
+
+  def self.update(id, options)
+    DatabaseConnection.query("UPDATE links SET url = '#{options[:url]}', title = '#{options[:title]}' WHERE id = '#{id}'")
+  end
+
+  def self.find(id)
+    result = DatabaseConnection.query("SELECT * FROM links WHERE id = #{id}")
+    result.map { |link| Link.new(link['id'], link['url'], link['title']) }.first
   end
 
   private
