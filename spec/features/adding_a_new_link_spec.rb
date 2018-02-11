@@ -1,6 +1,6 @@
 feature 'Adding a new link' do
   scenario 'A user can add a link to Bookmark Manager' do
-    visit('/add-a-new-link')
+    visit('/links/new')
     fill_in('url', with: 'http://testlink.com')
     fill_in('title', with: 'Test Link')
     click_button('Submit')
@@ -9,7 +9,7 @@ feature 'Adding a new link' do
   end
 
   scenario 'The link must be a valid URL' do
-    visit('/add-a-new-link')
+    visit('/links/new')
     fill_in('url', with: 'not a real link')
     fill_in('title', with: 'not a real link')
     click_button('Submit')

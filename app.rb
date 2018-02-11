@@ -8,32 +8,36 @@ class BookmarkManager < Sinatra::Base
   register Sinatra::Flash
 
   get '/' do
+    redirect('/links')
+  end
+
+  get '/links' do
     @links = Link.all
-    erb :index
+    erb :"links/index"  
   end
 
-  get '/add-a-new-link' do
-    erb :add_a_new_link
+  get '/links/new' do
+    erb :"links/new"
   end
 
-  post '/create-new-link' do
+  post '/links' do
     link = Link.create(url: params['url'], title: params['title'])
     
     flash[:notice] = "You must submit a valid URL." unless link
-    redirect('/')
+    redirect('/links')
   end
 
-  post '/delete-link' do
+  post '/links/:id/delete' do
     Link.delete(params['id'])
-    redirect '/'
+    redirect '/links'
   end
 
-  get '/update-a-link/:id' do
+  get '/links/:id/edit' do
     @link = Link.find(params['id'])
-    erb :update_a_link
+    erb :"links/edit"
   end
 
-  post '/update-a-link' do
+  post '/links/:id/update' do
     Link.update(params['id'], params)
     redirect('/')
   end
