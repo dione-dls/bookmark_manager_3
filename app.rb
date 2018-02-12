@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require './lib/link'
-require 'pg'
+require './database_connection_setup'
 
 class BookmarkManager < Sinatra::Base
   get '/' do
