@@ -15,27 +15,15 @@ describe Link do
 
   describe '.create' do
     it 'creates a new link' do
-      Link.create(url: 'http://www.testlink.com')
+      link = Link.create(url: 'http://www.testlink.com')
 
-      links = Link.all
-      urls = links.map(&:url)
-
-      expect(urls).to include 'http://www.testlink.com'
+      expect(link.id).not_to be_nil
     end
 
     it 'does not create a new link if the URL is not valid' do
-      Link.create(url: 'not a real link')
+      link = Link.create(url: 'not a real link')
 
-      links = Link.all
-      urls = links.map(&:url)
-
-      expect(urls).not_to include 'not a real link'
-    end
-
-    it 'returns the data wrapped in a Link instance' do
-      link = Link.create(url: 'http://www.testlink.com')
-
-      expect(link.url).to eq 'http://www.testlink.com'
+      expect(link).to be false
     end
   end
 
