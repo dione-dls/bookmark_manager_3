@@ -39,6 +39,11 @@ class Link
     result.map { |comment| Comment.new(comment['id'], comment['text']) }
   end
 
+  def tags
+    result = DatabaseConnection.query("SELECT tags.id, content FROM link_tags INNER JOIN tags ON tags.id = link_tags.tag_id WHERE link_tags.link_id = #{@id};")
+    result.map { |tag| Tag.new(tag['id'], tag['content']) }
+  end
+
   private
 
   def self.is_url?(url)

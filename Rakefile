@@ -4,7 +4,7 @@ task :test_database_setup do
   p "Cleaning database..."
 
   connection = PG.connect(dbname: 'bookmark_manager_test')
-  connection.exec("TRUNCATE comments, links, users;")
+  connection.exec("TRUNCATE comments, links, tags, link_tags;")
 end
 
 task :setup do
@@ -16,8 +16,9 @@ task :setup do
 
     connection = PG.connect(dbname: database)
     connection.exec("CREATE TABLE links(id SERIAL PRIMARY KEY, url VARCHAR(60), title VARCHAR(60));")
+    connection.exec("CREATE TABLE tags(id SERIAL PRIMARY KEY, content VARCHAR(60));")
+    connection.exec("CREATE TABLE link_tags(id SERIAL PRIMARY KEY, link_id INTEGER REFERENCES links (id), tag_id INTEGER REFERENCES tags (id));")
     connection.exec("CREATE TABLE comments(id SERIAL PRIMARY KEY, link_id INTEGER REFERENCES links (id), text VARCHAR(240));")
-    connection.exec("CREATE TABLE users(id SERIAL PRIMARY KEY, email VARCHAR(60), password VARCHAR(140));")
   end
 end
 

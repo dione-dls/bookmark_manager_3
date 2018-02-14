@@ -9,9 +9,17 @@
       <a href="/links/<%= link.id %>/comments/new">
         Comment
       </a>
+      <a href="/links/<%= link.id %>/tags/new">
+        Add tag
+      </a>
       <form action="/links/<%= link.id %>/delete" method="post">
         <input type="submit" value="Delete" />
       </form>
+      <ul>
+        <% link.tags.each do |tag| %>
+          <li><%= tag.content %></li>
+        <% end %>
+      </ul>
       <ul>
         <% link.comments.each do |comment| %>
           <li><%= comment.text %></li>

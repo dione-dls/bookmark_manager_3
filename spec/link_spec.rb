@@ -71,4 +71,13 @@ describe Link do
       expect(@link.comments.map(&:id)).to include comment.id
     end
   end
+
+  describe '#tags' do
+    it 'returns all tags that join on the link_tags table with this link ID' do
+      tag = Tag.create(content: 'Test Tag')
+      LinkTag.create(link_id: @link.id, tag_id: tag.id)
+
+      expect(@link.tags.map(&:id)).to include tag.id
+    end
+  end
 end

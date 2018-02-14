@@ -2,6 +2,8 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require './lib/link'
 require './lib/comment'
+require './lib/tag'
+require './lib/link_tag'
 require './database_connection_setup'
 
 class BookmarkManager < Sinatra::Base
@@ -50,6 +52,17 @@ class BookmarkManager < Sinatra::Base
 
   post '/links/:id/comments' do
     comment = Comment.create(link_id: params['id'], text: params['text'])
+    redirect('/links')
+  end
+
+  get '/links/:id/tags/new' do
+    @link = Link.find(params['id'])
+    erb :"tags/new"
+  end
+
+  post '/links/:id/tags' do
+    tag = Tag.create(content: params['content'])
+    LinkTag.create(link_id: params['id'], tag_id: tag.id)
     redirect('/links')
   end
 
