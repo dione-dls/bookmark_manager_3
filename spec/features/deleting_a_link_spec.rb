@@ -1,8 +1,9 @@
 feature 'Deleting a link' do
   scenario 'A user can delete a link' do
+    link = Link.create(url: 'http://testexample.com', title: 'Test Link')
     visit('/links')
 
-    within '#link-1' do
+    within "#link-#{link.id}" do
       click_button 'Delete'
     end
 
