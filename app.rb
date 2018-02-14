@@ -4,6 +4,7 @@ require './lib/link'
 require './lib/comment'
 require './lib/tag'
 require './lib/link_tag'
+require './lib/user'
 require './database_connection_setup'
 
 class BookmarkManager < Sinatra::Base
@@ -15,6 +16,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/links' do
+    @user = User.find(session[:user_id])
     @links = Link.all
     erb :"links/index"  
   end
@@ -69,6 +71,16 @@ class BookmarkManager < Sinatra::Base
   get '/tags/:id/links' do
     @links = Tag.find(params['id']).links
     erb :"tags/links/index"
+  end
+
+  get '/users/new' do
+    erb :"users/new"
+  end
+
+  post '/users' do
+    user = User.create(email: params['email'], password: params['password'])
+    session[:user_id] = user.id
+    redirect('/')
   end
 
   run! if app_file == $0

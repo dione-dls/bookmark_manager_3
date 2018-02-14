@@ -1,5 +1,9 @@
 <%= styled_flash %>
 
+<% if @user %>
+  <h1>Welcome, <%= @user.email %></h1>
+<% end %>
+
 <ul>
   <% @links.each do |link| %>
     <li id="link-<%= link.id %>">
