@@ -51,5 +51,11 @@ RSpec.describe User do
 
       expect(User.authenticate('nottherightemail@me.com', 'password123')).to be_nil
     end
+
+    it 'returns nil given an incorrect password' do
+      user = User.create(email: 'test@example.com', password: 'password123')
+
+      expect(User.authenticate('test@example.com', 'wrongpassword')).to be_nil
+    end
   end
 end
