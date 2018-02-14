@@ -14,4 +14,19 @@ feature 'tagging links' do
       expect(page).to have_content 'Test Tag'
     end
   end
+
+  scenario 'anyone can see links filtered by tag' do
+    link = Link.create(url: 'http://testexample.com', title: 'Test Link')
+    tag = Tag.create(content: 'Test Tag')
+    LinkTag.create(link_id: link.id, tag_id: tag.id)
+
+    visit('/links')
+
+    within "#link-#{link.id}" do
+      click_link "Test Tag"
+    end
+
+    expect(current_path).to eq "/tags/#{tag.id}/links"
+    expect(page).to have_content 'Test Link'
+  end
 end
