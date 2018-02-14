@@ -31,6 +31,12 @@ describe Link do
 
       expect(urls).not_to include 'not a real link'
     end
+
+    it 'returns the data wrapped in a Link instance' do
+      link = Link.create(url: 'http://www.testlink.com')
+
+      expect(link.url).to eq 'http://www.testlink.com'
+    end
   end
 
   describe '.delete' do
@@ -65,6 +71,15 @@ describe Link do
 
       expect(link.url).to eq "http://www.makersacademy.com"
       expect(link.title).to eq "Makers Academy"
+    end
+  end
+
+  describe '#comments' do
+    it 'returns all comments with a link_id equal to this link ID' do
+      link = Link.create(url: 'http://testexample.com', title: 'My test link')
+      comment = Comment.create(link_id: link.id, text: 'My test comment')
+
+      expect(link.comments.map(&:id)).to include comment.id
     end
   end
 end
