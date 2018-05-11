@@ -1,4 +1,4 @@
-ENV['ENVIRONMENT'] = 'test'
+ENV['ENVIRONMENT'] = 'test' 
 
 require 'rake'
 Rake.application.load_rakefile
