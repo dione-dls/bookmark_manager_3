@@ -1,18 +1,20 @@
-require 'database_connection'
+require_relative 'database_connection'
 require 'uri'
 
 class Link
-  attr_reader :id, :url, :title
+  attr_reader :id, :url, :title, :comments
 
-  def initialize(id, url, title)
+  def initialize(id, url, title, comments)
     @id = id
     @url = url
     @title = title
+    @comments = comments
   end
 
   def self.all
-    result = DatabaseConnection.query("SELECT * FROM links")
-    result.map { |link| Link.new(link['id'], link['url'], link['title']) }
+    result = DatabaseConnection.query("SELECT * FROM links INNER JOIN comments ON links.id=comments.bookmark_id")
+
+    result.map { |link| Link.new(link['id'], link['url'], link['title'], comments['text']) }
   end
 
   def self.create(options)
